@@ -1,4 +1,5 @@
 from bd.conexao import conecta_db
+import bcrypt
 
 def listar_clientes_bd(conexao):
     cursor = conexao.cursor()
@@ -22,10 +23,16 @@ def consultar_cliente_por_id(conexao):
 
 
 def inserir_cliente_bd(conexao, nome,sexo, telefone,senha,observacao):
-    print("Inserindo o Cliente ..: ")
     cursor = conexao.cursor()
+
+    senha = senha.encode('utf-8')
+    salt = bcrypt.gensalt() #Gera um salt aleatorio
+    hash_senha = bcrypt.hashpw(senha, salt)
+    print("Hash Senha ", hash_senha)
+
+    print("Inserindo o Cliente ..: ")
     sql_insert = "insert into cliente (nome,sexo,telefone,senha,observacao) values ( %s,%s, %s,%s,%s)"
-    dados = (nome,sexo,telefone,senha,observacao)
+    dados = (nome,sexo,telefone,hash_senha.decode('utf-8'),observacao)
     cursor.execute(sql_insert,dados)
     conexao.commit()
 

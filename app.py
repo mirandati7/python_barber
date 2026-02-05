@@ -5,6 +5,7 @@ from bd.barbearia_bd import inserir_barbearia_bd, listar_barbearia_bd
 from bd.cliente_bd import inserir_cliente_bd, listar_clientes_bd
 from bd.profissionais_bd import inserir_profissionais_bd, listar_profissionais_bd
 from bd.servico_bd import inserir_servicos_bd, listar_servicos_bd
+from bd.login_bd import login_profissional_bd, login_cliente_bd
 
 app = Flask(__name__)
 
@@ -12,6 +13,12 @@ app = Flask(__name__)
 def home():
     nome = "Sistema de Barbearia"
     return render_template("home.html",nome=nome)
+
+
+@app.route('/area-cliente')
+def area_cliente():
+    nome = "Sistema de Barbearia Àrea do cliente"
+    return render_template("area_cliente.html",nome=nome)
 
 
 @app.route("/barbearias/novo", methods=['GET','POST'])
@@ -108,6 +115,58 @@ def salvar_servico():
 
         return f"<h2> Serviço Salvo com Sucesso:  {nome} </h2>"
     return render_template("servico_form.html")
+
+
+
+@app.route('/', methods=['GET','POST'])
+def login():
+    if request.method == 'POST':
+        usuario = request.form.get('usuario')
+        senha = request.form.get('senha')
+
+        # Valida campos obrigatórios; ajuste aqui para autenticar de verdade
+        if not usuario or not senha:
+            erro = "Preencha usuário e senha para entrar."
+            return render_template("login.html", erro=erro)
+        
+        conexao = conecta_db()
+        valida_login = login_profissional_bd(conexao,usuario, senha)
+        # Antes de redirecionar vamos fazer a validação do usuario e senha
+
+        if valida_login == "OK":
+            return redirect(url_for('home'))
+        else:
+            return render_template("login.html",erro=valida_login)
+        
+    # Obriga a passar no login.html    
+    return render_template("login.html")
+
+
+
+
+@app.route('/login', methods=['GET','POST'])
+def login_cliente():
+    if request.method == 'POST':
+        usuario = request.form.get('usuario')
+        senha = request.form.get('senha')
+
+        # Valida campos obrigatórios; ajuste aqui para autenticar de verdade
+        if not usuario or not senha:
+            erro = "Preencha usuário e senha para entrar."
+            return render_template("login_cliente.html", erro=erro)
+        
+        conexao = conecta_db()
+        valida_login = login_cliente_bd(conexao,usuario, senha)
+        # Antes de redirecionar vamos fazer a validação do usuario e senha
+
+        if valida_login == "OK":
+            return redirect(url_for('area_cliente'))
+        else:
+            return render_template("login_cliente.html",erro=valida_login)
+        
+    # Obriga a passar no login.html    
+    return render_template("login_cliente.html")
+
 
 
 

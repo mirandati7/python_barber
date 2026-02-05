@@ -1,10 +1,18 @@
 from bd.conexao import conecta_db
+import bcrypt
 
 
 def inserir_profissionais_bd(conexao,nome,telefone,senha):
     cursor = conexao.cursor()
+    # Criptografia da senha
+    senha = senha.encode("utf-8")
+    salt = bcrypt.gensalt() #Gera um salt aleatorio
+    hash_senha = bcrypt.hashpw(senha, salt)
+    print("Hash Senha ", hash_senha)
+
+
     sql_insert = "insert into profissionais(nome,telefone,senha) values ( %s,%s,%s) "
-    dados =(nome,telefone,senha)
+    dados =(nome,telefone,hash_senha.decode('utf-8'))
     cursor.execute(sql_insert, dados)
     conexao.commit()
 
