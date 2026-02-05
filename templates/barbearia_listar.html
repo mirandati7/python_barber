@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% block title %}Barbearias{% endblock %}
+{% block content %}
+
+<div class="d-flex justify-content-between mb-3">
+  <h1 class="h4">Barbearias Cadastradas</h1>
+  <a href="{{ url_for('salvar_barbearia') }}" class="btn btn-success">Nova Barbearia</a>
+</div>
+
+    {% if barbearias %}
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th> Id</th>
+                    <th> Nome</th>
+                    <th> Telefone</th>
+                    <th> Endereço</th>
+                    <th> Formas de Pagamento </th>
+                    <th> Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in barbearias %}
+                    <tr>
+                        <td> {{item[0]}}  </td>
+                        <td> {{item[1]}} </td>
+                        <td> {{item[2]}} </td>
+                        <td> {{item[3]}} </td>
+                        <td> {{item[4]}} </td>
+                        <td>
+                            <a href="" class="btn btn-sm btn-secondary">Editar</a>		
+		                    <button class="btn btn-sm btn-danger" onclick="return confirm('Excluir?')">Excluir</button>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+
+        </table>
+    {% else %}
+        <p> Nenhuma barbearia encontrada</p>
+    {% endif %}
+    
+{% endblock %}

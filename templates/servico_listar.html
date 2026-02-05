@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% block title %}Servicos{% endblock %}
+{% block content %}
+
+<div class="d-flex justify-content-between mb-3">
+  <h1 class="h4">Serviços Cadastrados</h1>
+  <a href="{{ url_for('salvar_servico') }}" class="btn btn-success">Novo Serviço</a>
+</div>
+
+    {% if servicos %}
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th> Id</th>
+                    <th> Nome</th>
+                    <th> Tempo Estimado</th>
+                    <th> Valor Estimado</th>
+                    <th> Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in servicos %}
+                    <tr>
+                        <td> {{item[0]}}  </td>
+                        <td> {{item[1]}} </td>
+                        <td> {{item[2]}} </td>
+                        <td> {{item[3]}} </td>
+                        <td>
+                            <a href="" class="btn btn-sm btn-secondary">Editar</a>		
+		                    <button class="btn btn-sm btn-danger" onclick="return confirm('Excluir?')">Excluir</button>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+
+        </table>
+    {% else %}
+        <p> Nenhuma profissional encontrado</p>
+    {% endif %}
+    
+{% endblock %}

@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% block title %}Profissionais{% endblock %}
+{% block content %}
+
+<div class="d-flex justify-content-between mb-3">
+  <h1 class="h4">Profissionais Cadastrados</h1>
+  <a href="{{ url_for('salvar_profissional') }}" class="btn btn-success">Novo Profissional</a>
+</div>
+
+    {% if profissionais %}
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th> Id</th>
+                    <th> Nome</th>
+                    <th> Telefone</th>
+                    <th> Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in profissionais %}
+                    <tr>
+                        <td> {{item[0]}}  </td>
+                        <td> {{item[1]}} </td>
+                        <td> {{item[2]}} </td>
+                        <td>
+                            <a href="" class="btn btn-sm btn-secondary">Editar</a>		
+		                    <button class="btn btn-sm btn-danger" onclick="return confirm('Excluir?')">Excluir</button>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+
+        </table>
+    {% else %}
+        <p> Nenhuma profissional encontrado</p>
+    {% endif %}
+    
+{% endblock %}
