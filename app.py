@@ -6,6 +6,7 @@ from bd.cliente_bd import inserir_cliente_bd, listar_clientes_bd
 from bd.profissionais_bd import inserir_profissionais_bd, listar_profissionais_bd
 from bd.servico_bd import inserir_servicos_bd, listar_servicos_bd
 from bd.login_bd import login_profissional_bd, login_cliente_bd
+from bd.agendamento_bd import listar_agendamentos_db, inserir_agendamento_bd
 
 app = Flask(__name__)
 
@@ -44,6 +45,32 @@ def barbearia_listar():
     conexao = conecta_db()
     barbearias = listar_barbearia_bd(conexao)
     return render_template("barbearia_listar.html",barbearias=barbearias)
+
+
+@app.route("/agendamentos/listar", methods=['GET','POST'])
+def agendamento_listar():
+    conexao = conecta_db()
+    agendamentos = listar_agendamentos_db(conexao)
+    return render_template("agendamento_listar.html",agendamentos=agendamentos)
+
+
+
+@app.route("/agendamentos/novo", methods=['GET','POST'])
+def salvar_agendamento():
+    if request.method == 'POST':
+        id_cliente = request.form.get('id_cliente')
+        id_profissional = request.form.get('id_profissional')
+        id_servico = request.form.get('id_servico')
+        data_hora = request.form.get('data_hora')
+        valor_servico = request.form.get('valor_servico')
+        status = request.form.get('status')
+        print("Teste de Cadastro de Agendamentos ")
+
+        conexao = conecta_db()
+        inserir_agendamento_bd(conexao,id_cliente,id_profissional, id_servico,data_hora,valor_servico,status)
+
+        return f"<h2> Agendamento Salvo com Sucesso:  </h2>"
+    return render_template("agendamento_form.html")
 
 
 @app.route("/clientes/listar", methods=['GET','POST'])
@@ -140,8 +167,6 @@ def login():
         
     # Obriga a passar no login.html    
     return render_template("login.html")
-
-
 
 
 @app.route('/login', methods=['GET','POST'])

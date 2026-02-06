@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% block title %}Agendamentos{% endblock %}
+{% block content %}
+
+<div class="d-flex justify-content-between mb-3">
+  <h1 class="h4">Agendamentos Cadastrados</h1>
+</div>
+
+    {% if agendamentos %}
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th> Id</th>
+                    <th> Id Cliente</th>
+                    <th> Id Profissional</th>
+                    <th> Id Serviço</th>
+                    <th> Data Hora </th>
+                    <th> Valor Serviço</th>
+                    <th> Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in agendamentos %}
+                    <tr>
+                        <td> {{item[0]}}  </td>
+                        <td> {{item[1]}} </td>
+                        <td> {{item[2]}} </td>
+                        <td> {{item[3]}} </td>
+                        <td> {{item[4]}} </td>
+                        <td> {{item[5]}} </td>
+                        <td> {{item[6]}} </td>
+                        <td>
+                            <a href="" class="btn btn-sm btn-secondary">Editar</a>		
+		                    <button class="btn btn-sm btn-danger" onclick="return confirm('Excluir?')">Excluir</button>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+
+        </table>
+    {% else %}
+        <p> Nenhum agendamento encontrado</p>
+    {% endif %}
+    
+{% endblock %}
