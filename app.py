@@ -57,6 +57,11 @@ def agendamento_listar():
 
 @app.route("/agendamentos/novo", methods=['GET','POST'])
 def salvar_agendamento():
+    conexao = conecta_db()
+    barbeiros = listar_profissionais_bd(conexao)
+    servicos = listar_servicos_bd(conexao)
+
+
     if request.method == 'POST':
         id_cliente = request.form.get('id_cliente')
         id_profissional = request.form.get('id_profissional')
@@ -65,12 +70,11 @@ def salvar_agendamento():
         valor_servico = request.form.get('valor_servico')
         status = request.form.get('status')
         print("Teste de Cadastro de Agendamentos ")
-
-        conexao = conecta_db()
-        inserir_agendamento_bd(conexao,id_cliente,id_profissional, id_servico,data_hora,valor_servico,status)
+        inserir_agendamento_bd(conexao,id_cliente,id_profissional, id_servico,data_hora,valor_servico,status)   
 
         return f"<h2> Agendamento Salvo com Sucesso:  </h2>"
-    return render_template("agendamento_form.html")
+    
+    return render_template("agendamento_form.html",barbeiros=barbeiros,servicos=servicos)
 
 
 @app.route("/clientes/listar", methods=['GET','POST'])
