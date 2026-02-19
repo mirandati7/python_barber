@@ -5,7 +5,7 @@
 <div class="card p-4 shadow-sm">
     <h1 class="h5 mb-3">Editar Barbearia</h1>
 
-    <form method="post" action="{{ url_for('barbearia_editar', id=barbearia[0]) }}">
+    <form method="post" action="{{ url_for('barbearias.editar', id=barbearia[0]) }}">
         <div class="mb-3">
             <label class="form-label">Nome</label>
             <input class="form-control" type="text" name="nome" value="{{ barbearia[1] }}">
@@ -27,7 +27,7 @@
         </div>
 
         <button class="btn btn-success" type="submit">Salvar Alterações</button>
-        <a href="{{ url_for('barbearia_listar') }}" class="btn btn-secondary">Voltar</a>
+        <a href="{{ url_for('barbearias.listar') }}" class="btn btn-secondary">Voltar</a>
     </form>
 </div>
 
