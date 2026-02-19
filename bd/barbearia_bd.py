@@ -36,3 +36,14 @@ def alterar_barbearia_bd(conexao, id, nome,telefone,endereco,forma_pagamento):
     conexao.commit()
 
 
+def buscar_barbearia_por_id_bd(conexao, id):
+    cursor = conexao.cursor()
+    cursor.execute("""
+            select id, nome, telefone, endereco, forma_pagamento
+            from barbearia
+            where id = %s
+        """, (id,))
+    registro = cursor.fetchone()
+    return registro
+
+

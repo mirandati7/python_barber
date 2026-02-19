@@ -10,16 +10,15 @@ def listar_clientes_bd(conexao):
     return registros
 
 
-def consultar_cliente_por_id(conexao):
+def consultar_cliente_por_id_bd(conexao,id):
     cursor = conexao.cursor()
-    cursor.execute("select id,nome from cliente where id = " + id)
+    cursor.execute("select id,nome,sexo,telefone,observacao from cliente where id = " + str(id))
     registro = cursor.fetchone()
 
     if registro is None:
         print("Cliente não encontrado:")
     else:
-        print(f"| ID ..: {registro[0]} ")
-        print(f"| Nome : {registro[1]} ")
+        return registro
 
 
 def inserir_cliente_bd(conexao, nome,sexo, telefone,senha,observacao):
@@ -36,19 +35,17 @@ def inserir_cliente_bd(conexao, nome,sexo, telefone,senha,observacao):
     cursor.execute(sql_insert,dados)
     conexao.commit()
 
-def atualizar_cliente_bd(conexao):
-    print("Alterando dados dos Cliente")
+def atualizar_cliente_bd(conexao,nome,sexo,telefone,observacao,id):
     cursor = conexao.cursor()
-    id   = input("Digite o ID : ")
-    nome = input("Nome :")
-    sql_update = "update cliente set nome ='" + nome + "' where id = "+ id
-    cursor.execute(sql_update)
+    sql_update = """update cliente set nome = %s, sexo =%s, telefone =%s, observacao = %s 
+                    where id = %s"""
+    dados = (nome,sexo,telefone,observacao,id)
+    cursor.execute(sql_update,dados)
     conexao.commit()
 
-def deletar_cliente_bd(conexao):
+def deletar_cliente_bd(conexao, id):
     print("Deletando Cliente")
     cursor = conexao.cursor()
-    id   = input("Digite o ID : ")
     sql_delete = "delete from cliente where id = "+ id
     cursor.execute(sql_delete)
     conexao.commit()

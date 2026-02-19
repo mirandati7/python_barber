@@ -29,7 +29,7 @@
                         <td> {{item[3]}} </td>
                         <td> {{item[4]}} </td>
                         <td>
-                            <a href="" class="btn btn-sm btn-secondary">Editar</a>		
+                            <a href="{{ url_for('cliente_editar', id=item[0]) }}" class="btn btn-sm btn-secondary">Editar</a>		
 		                    <button class="btn btn-sm btn-danger" onclick="return confirm('Excluir?')">Excluir</button>
                         </td>
                     </tr>
