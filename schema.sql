@@ -1,3 +1,4 @@
+pg_dump --schema-only -U postgres -d barbearia > schema.sql
 
 CREATE TABLE public.barbearia (
     id serial NOT NULL PRIMARY KEY,
