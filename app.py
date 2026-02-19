@@ -9,8 +9,12 @@ from bd.servico_bd import inserir_servicos_bd, listar_servicos_bd
 from bd.login_bd import login_profissional_bd, login_cliente_bd
 from bd.agendamento_bd import listar_agendamentos_db, inserir_agendamento_bd
 
+from routes.barbearia import barbearias
+
 app = Flask(__name__)
 app.secret_key = "designcursos"
+
+app.register_blueprint(barbearias)
 
 ## Login Required do Admin
 def login_required(f):
@@ -43,52 +47,9 @@ def area_cliente():
     return render_template("area_cliente.html",nome=nome)
 
 
-@app.route("/barbearias/novo", methods=['GET','POST'])
-@login_required
-def salvar_barbearia():
-    if request.method == 'POST':
-        nome = request.form.get('nome')
-        telefone = request.form.get('telefone')
-        endereco = request.form.get('endereco')
-        forma_pagamento = request.form.get('forma_pagamento')
-
-        if not nome:
-            return "<h3> Por favor, preencha todos os campos</h3"
-        
-        conexao = conecta_db()
-        inserir_barbearia_bd(conexao,nome,telefone,endereco,forma_pagamento)
-
-        return f"<h2> Barbearia Salvo com Sucesso:  {nome} </h2>"
-    return render_template("barbearia_form.html",titulo="Barbearias")
 
 
-@app.route("/barbearias/listar", methods=['GET','POST'])
-@login_required
-def barbearia_listar():
-    conexao = conecta_db()
-    barbearias = listar_barbearia_bd(conexao)
-    return render_template("barbearia_listar.html",barbearias=barbearias)
 
-
-@app.route("/barbearias/<int:id>/editar", methods=["GET", "POST"])
-@login_required
-def barbearia_editar(id):
-    conexao = conecta_db()
-
-    if request.method == "GET":
-        barbearia = buscar_barbearia_por_id_bd(conexao, id)
-        if not barbearia:
-            return "<h3> Barbearia não encontrada </h3"
-        return render_template("barbearia_editar.html", barbearia=barbearia)
-
-    # POST
-    nome = request.form.get("nome", "").strip()
-    telefone = request.form.get("telefone", "").strip()
-    endereco = request.form.get("endereco", "").strip()
-    forma_pagamento = request.form.get("forma_pagamento", "").strip()
-
-    alterar_barbearia_bd(conexao, id, nome, telefone, endereco, forma_pagamento)
-    return redirect(url_for("barbearia_listar"))
 
 
 @app.route("/agendamentos/listar", methods=['GET','POST'])

@@ -4,7 +4,7 @@
 
 <div class="d-flex justify-content-between mb-3">
   <h1 class="h4">Barbearias Cadastradas</h1>
-  <a href="{{ url_for('salvar_barbearia') }}" class="btn btn-success">Nova Barbearia</a>
+  <a href="{{ url_for('barbearias.novo') }}" class="btn btn-success">Nova Barbearia</a>
 </div>
 
     {% if barbearias %}
@@ -28,7 +28,7 @@
                         <td> {{item[3]}} </td>
                         <td> {{item[4]}} </td>
                         <td>
-                            <a href="{{ url_for('barbearia_editar', id=item[0]) }}" class="btn btn-sm btn-secondary">Editar</a>
+                            <a href="{{ url_for('barbearias.editar', id=item[0]) }}" class="btn btn-sm btn-secondary">Editar</a>
 		                    <button class="btn btn-sm btn-danger" onclick="return confirm('Excluir?')">Excluir</button>
                         </td>
                     </tr>
