@@ -21,6 +21,7 @@ def login_profissional_bd(conexao, login, senha) -> str:
         if bcrypt.checkpw(senha_verificar, senha_bd_bytes):
             return "OK"
         else: 
+            print("Não foi possível autenticar")
             return "Senha Inválida  !"
     else:
         return "Usuário não encontrado !"
